@@ -82,18 +82,8 @@ class simple_simplegeo:
     def __init__(self, consumer_key, consumer_secret, token_key=None, token_secret=None):
       self.consumer_key = consumer_key
       self.consumer_secret = consumer_secret
-      if token_key:
-        self.token_key = token_key
-      if token_secret:
-        self.token_secret = token_secret
-
       self.consumer = oauth.Consumer(key=self.consumer_key, secret= self.consumer_secret)
-      if self.token_key:
-        self.token = oauth.Token(key=self.token_key, secret=self.token_secret)
-      else:
-        self.token = None
-
-      self.client = oauth.Client(self.consumer,self.token)
+      self.client = oauth.Client(self.consumer)
 
     def make_request(self, url,method,data=None):
       body = None
@@ -106,12 +96,11 @@ class simple_simplegeo:
         else:
           body = data
       if self.debug:
+        print url
 
       resp, content = self.client.request(url, method, body)
       content = simplejson.loads(content)
       return content
-
-
 
     #http://simplegeo.com/docs/api-endpoints/simplegeo-features
     def get_feature_details(self, handle):
@@ -119,7 +108,6 @@ class simple_simplegeo:
       response = self.make_request(url,"GET")
       return response
 
-    
     def list_of_feature_categories(self):
       url = self.api_base_url + "/features/categories.json"
       response = self.make_request(url,"GET")
@@ -214,7 +202,7 @@ class simple_simplegeo:
         extra_params = {
           'radius':radius,
             }
-        params = params + extra_params
+        params = dict(params, **extra_params)
       #this one may not work
       elif geohash:
         url = self.record_api_base_url + "/records/"+layer+"/nearby/"+str(geohash)+".json"
@@ -243,14 +231,10 @@ class simple_simplegeo:
 if __name__ == "__main__": 
     consumer_key=""
     consumer_secret=""
-    token_key=""
-    token_secret=""
 
     api = simple_simplegeo(
             consumer_key=consumer_key, 
-            consumer_secret=consumer_secret,
-            token_key=token_key, 
-            token_secret=token_secret)
+            consumer_secret=consumer_secret)
 
     #print api.get_feature_details("SG_2AziTafTLNReeHpRRkfipn_37.766713_-122.428938@1291796505")
     #print api.list_of_feature_categories()
