@@ -1,0 +1,35 @@
+Here is the basic gist of the client. 
+
+It is simple. I borrowed the record class from the official client. it made the geojson way easier. i still hate geojson. but detour1999 is right.
+
+
+    consumer_key=""
+    consumer_secret=""
+
+    api = simple_simplegeo(
+            consumer_key=consumer_key, 
+            consumer_secret=consumer_secret,
+            )
+
+    #print api.get_feature_details("SG_2AziTafTLNReeHpRRkfipn_37.766713_-122.428938@1291796505")
+    #print api.list_of_feature_categories()
+    #print api.get_context_for_a_location(address='205 43rd ave, greeley, 80634')
+    #print api.get_context_for_a_location(ip='98.222.40.222')
+    #print api.get_context_for_a_location(latitude='37.778381',longitude='-122.389388')
+    #print api.search_for_nearby_places(address='205 43rd ave, greeley, 80634')
+    #print api.search_for_nearby_places(ip='98.222.40.222')
+    #print api.search_for_nearby_places(latitude='37.778381',longitude='-122.389388')
+    #print api.search_for_nearby_places(latitude='37.7645',longitude='-122.4294',q="diner", category="Restaurant")
+    #print api.get_feature("SG_2AziTafTLNReeHpRRkfipn_37.766713_-122.428938@1291796505")
+    #record = Record('harper', '5',37.778381, -122.389388)
+    #record = Record('harper', '18',41.8675, -87.674400000000006)
+    #print api.create_record(record)
+    #print api.delete_record('harper','4')
+    #print api.get_record('harper','4')
+    #print api.query_record_history('harper','4')
+    #print api.query_nearby_records(layer='harper',latitude='37.778381',longitude='-122.389388')
+    #print api.query_nearby_records(layer='harper',ip='98.222.40.222')
+    #print api.query_nearby_records(layer='harper',geohash='dp3whvtry7tj')
+    #addr = '1462 N MILWAUKEE, CHICAGO, 60622'
+    #print api.search_for_nearby_places(address=addr)
+    #print api.population_density_by_day(dayname='fri', latitude='37.7645',longitude='-122.4294')
