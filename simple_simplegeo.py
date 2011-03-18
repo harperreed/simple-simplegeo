@@ -1,7 +1,11 @@
 import oauth2 as oauth
 import time
-import simplejson
 import urllib
+
+try:
+  import simplejson
+except:
+  from django.utils import simplejson
 
 try:
     from urlparse import parse_qs, parse_qsl
