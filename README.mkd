@@ -1,6 +1,8 @@
+Here is the basic gist of the client. 
+
+It is simple. I borrowed the record class from the official client. it made the geojson way easier. i still hate geojson. but detour1999 is right.
 
 
-   if __name__ == "__main__": 
     consumer_key=""
     consumer_secret=""
 
