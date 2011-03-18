@@ -106,7 +106,6 @@ class simple_simplegeo:
         else:
           body = data
       if self.debug:
-        print url
 
       resp, content = self.client.request(url, method, body)
       content = simplejson.loads(content)
@@ -203,42 +202,36 @@ class simple_simplegeo:
 
     #http://simplegeo.com/docs/api-endpoints/simplegeo-storage#nearby
     def query_nearby_records(self, layer, latitude='',longitude='',ip='',geohash='', radius='',  limit='',types='', start='', end=''):
+      params = {
+        'limit':limit,
+        'types':','.join(types),
+        'start':start,
+        'end':end,
+          }
+
       if latitude and longitude:
         url = self.record_api_base_url + "/records/"+layer+"/nearby/"+str(latitude)+","+str(longitude)+".json"
-        params = {
+        extra_params = {
           'radius':radius,
-          'limit':limit,
-          'types':','.join(types),
-          'start':start,
-          'end':end,
             }
+        params = params + extra_params
       #this one may not work
       elif geohash:
         url = self.record_api_base_url + "/records/"+layer+"/nearby/"+str(geohash)+".json"
-        params = {
-          'limit':limit,
-          'types':','.join(types),
-          'start':start,
-          'end':end,
-            }
       elif ip:
         url = self.record_api_base_url + "/records/"+layer+"/nearby/"+str(ip)+".json"
-        params = {
-          'limit':limit,
-          'types':','.join(types),
-          'start':start,
-          'end':end,
-            }
 
       response = self.make_request(url,"GET",params)
       return response
 
     #http://simplegeo.com/docs/api-endpoints/tools#spotrank
+    #doesn't work. but doesn't work in official client either. HAH
     def population_density_by_day(self, dayname, latitude, longitude):
       url = self.api_base_url + "/density/"+dayname+"/"+str(latitude)+","+str(longitude)+".json"
       response = self.make_request(url,"GET")
       return response
 
+    #doesn't work. but doesn't work in official client either. HAH
     def population_density_by_hour(self, dayname, hour, latitude, longitude):
       url = self.api_base_url + "/density/"+dayname+"/"+str(hour)+"/"+str(latitude)+","+str(longitude)+".json"
       response = self.make_request(url,"GET")
