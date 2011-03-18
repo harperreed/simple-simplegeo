@@ -209,7 +209,8 @@ class simple_simplegeo:
       elif ip:
         url = self.record_api_base_url + "/records/"+layer+"/nearby/"+str(ip)+".json"
 
-      response = self.make_request(url,"GET",params)
+      #response = self.make_request(url,"GET",params) #this is a bug. i don't know why
+      response = self.make_request(url,"GET") #if you don't pass the param it works
       return response
 
     #http://simplegeo.com/docs/api-endpoints/tools#spotrank
