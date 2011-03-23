@@ -29,7 +29,10 @@ class Record(object):
     def from_dict(cls, data):
         if not data:
             return None
-        coord = data['geometry']['coordinates']
+        try:
+            coord = data['geometry']['coordinates']
+        except KeyError:
+            pass
         record = cls(data['properties']['layer'], data['id'], lat=coord[1], lon=coord[0])
         record.created = data.get('created', record.created)
         record.__dict__.update(dict((k, v) for k, v in data['properties'].iteritems()
@@ -194,19 +197,23 @@ class simple_simplegeo:
 
     #http://simplegeo.com/docs/api-endpoints/simplegeo-storage#nearby
     def query_nearby_records(self, layer, latitude='',longitude='',ip='',geohash='', radius='',  limit='',types='', start='', end=''):
-      params = {
-        'limit':limit,
-        'types':','.join(types),
-        'start':start,
-        'end':end,
-          }
-
+      params = {}
+      if limit:
+          params['limit'] = limit;
+      if types:
+          params['types'] = ','.join(types);
+      if start:
+          params['start'] = start;
+      if end:
+          params['end'] = end;
+          
       if latitude and longitude:
         url = self.record_api_base_url + "/records/"+layer+"/nearby/"+str(latitude)+","+str(longitude)+".json"
-        extra_params = {
-          'radius':radius,
-            }
-        params = dict(params, **extra_params)
+        if radius:
+            extra_params = {
+              'radius':radius,
+                }
+            params = dict(params, **extra_params)
       #this one may not work
       elif geohash:
         url = self.record_api_base_url + "/records/"+layer+"/nearby/"+str(geohash)+".json"
@@ -214,7 +221,7 @@ class simple_simplegeo:
         url = self.record_api_base_url + "/records/"+layer+"/nearby/"+str(ip)+".json"
 
       #response = self.make_request(url,"GET",params) #this is a bug. i don't know why
-      response = self.make_request(url,"GET") #if you don't pass the param it works
+      response = self.make_request(url,"GET", params) #if you don't pass the param it works
       return response
 
     #http://simplegeo.com/docs/api-endpoints/tools#spotrank
